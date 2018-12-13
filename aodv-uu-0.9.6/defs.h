@@ -16,9 +16,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Authors: Erik Nordstr�m, <erik.nordstrom@it.uu.se>
+ * Authors: Erik Nordström, <erik.nordstrom@it.uu.se>
  *
  *****************************************************************************/
+/*
+defs目前不知道是什么，但是routetable头文件包含还头文件，且该文件包含大量结构体
+*/
 #ifndef _DEFS_H
 #define _DEFS_H
 
