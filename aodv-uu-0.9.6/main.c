@@ -22,10 +22,10 @@
 #include <stdio.h>
 #include <stdlib.h>    /*标准库函数*/
 #include <unistd.h>    /*C 和 C++ 程序设计语言中提供对 POSIX 操作系统 API 的访问功能的头文件的名称*/
-#include <errno.h>
-#include <sys/types.h>
+#include <errno.h>     /*定义了通过错误码来回报错误资讯的宏*/
+#include <sys/types.h> /*基本系统数据类型，此头文件还包含适当时应使用的多个基本派生类型*/
 #include <sys/socket.h>
-#include <sys/stat.h>
+#include <sys/stat.h>  /*获取文件属性*/
 #include <linux/sockios.h>
 #include <linux/if.h>
 #include <linux/wireless.h>
