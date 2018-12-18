@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Authors: Erik Nordström, <erik.nordstrom@it.uu.se>
+ * Authors: Erik NordstrÃ¶m, <erik.nordstrom@it.uu.se>
  *          
  *
  *****************************************************************************/
@@ -51,7 +51,7 @@ typedef struct {
 
 #define RERR_SIZE sizeof(RERR)
 
-/* Extra unreachable destinations... */
+/* Extra unreachable destinations... *//
 typedef struct {
     u_int32_t dest_addr;
     u_int32_t dest_seqno;
