@@ -685,7 +685,7 @@ int main(int argc, char **argv)
 		}
 	    }
 	}
-    }				/* Main loop */
+    }				/* Main loop *//
     return 0;
 }
 
