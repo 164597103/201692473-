@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Authors: Erik Nordstr�m, <erik.nordstrom@it.uu.se>
+ * Authors: Erik Nordström, <erik.nordstrom@it.uu.se>
  *          
  *
  *****************************************************************************/
@@ -50,17 +50,17 @@ typedef struct {
     u_int8_t g:1;		/* Gratuitous RREP flag */
     u_int8_t d:1;		/* Destination only respond */
     u_int8_t res1:4;
-#else
+#else				//以上部分根据系统是大端还是小端进行相应改写
 #error "Adjust your <bits/endian.h> defines"
 #endif
-    u_int8_t res2;
-    u_int8_t hcnt;
-    u_int32_t rreq_id;
-    u_int32_t dest_addr;
-    u_int32_t dest_seqno;
-    u_int32_t orig_addr;
-    u_int32_t orig_seqno;
-} RREQ;
+    u_int8_t res2;		//保留位置，用于拓展
+    u_int8_t hcnt;		//路由跳数
+    u_int32_t rreq_id;		//RREQ报文ID
+    u_int32_t dest_addr;	//目的IP
+    u_int32_t dest_seqno;	//目的序列号
+    u_int32_t orig_addr;	//源IP
+    u_int32_t orig_seqno;	//源序列号
+} RREQ;				//该部分为RREQ报文帧的格式详解
 
 #define RREQ_SIZE sizeof(RREQ)
 
@@ -69,27 +69,28 @@ struct rreq_record {
     list_t l;
     struct in_addr orig_addr;	/* Source of the RREQ */
     u_int32_t rreq_id;		/* RREQ's broadcast ID */
-    struct timer rec_timer;
+    struct timer rec_timer;	//定时器
 };
 
+//该函数用途不明
 struct blacklist {
     list_t l;
     struct in_addr dest_addr;
-    struct timer bl_timer;
+    struct timer bl_timer;	//定时器
 };
 #endif				/* NS_NO_GLOBALS */
 
 #ifndef NS_NO_DECLARATIONS
 RREQ *rreq_create(u_int8_t flags, struct in_addr dest_addr,
-		  u_int32_t dest_seqno, struct in_addr orig_addr);
+		  u_int32_t dest_seqno, struct in_addr orig_addr);		//RREQ报文创建函数
 void rreq_send(struct in_addr dest_addr, u_int32_t dest_seqno, int ttl,
-	       u_int8_t flags);
+	       u_int8_t flags);							//RREQ报文发送
 void rreq_forward(RREQ * rreq, int size, int ttl);
 void rreq_process(RREQ * rreq, int rreqlen, struct in_addr ip_src,
 		  struct in_addr ip_dst, int ip_ttl, unsigned int ifindex);
 void rreq_route_discovery(struct in_addr dest_addr, u_int8_t flags,
-			  struct ip_data *ipd);
-void rreq_record_timeout(void *arg);
+			  struct ip_data *ipd);					//RREQ路由发现函数
+void rreq_record_timeout(void *arg);						
 struct blacklist *rreq_blacklist_insert(struct in_addr dest_addr);
 void rreq_blacklist_timeout(void *arg);
 void rreq_local_repair(rt_table_t * rt, struct in_addr src_addr,
