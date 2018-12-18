@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Authors: Erik Nordstr�m, <erik.nordstrom@it.uu.se>
+ * Authors: Erik Nordström, <erik.nordstrom@it.uu.se>
  *          
  *
  *****************************************************************************/
@@ -44,25 +44,27 @@ typedef u_int32_t hash_value;	/* A hash value */
 /* Route table entries */
 struct rt_table {
     list_t l;
-    struct in_addr dest_addr;	/* IP address of the destination */
+    struct in_addr dest_addr;	/* 目的IP地址 */
     u_int32_t dest_seqno;
-    unsigned int ifindex;	/* Network interface index... */
-    struct in_addr next_hop;	/* IP address of the next hop to the dest */
-    u_int8_t hcnt;		/* Distance (in hops) to the destination */
-    u_int16_t flags;		/* Routing flags */
-    u_int8_t state;		/* The state of this entry */
+    unsigned int ifindex;	/* 网络层接口 */
+    struct in_addr next_hop;	/* 下一跳IP地址 */
+    u_int8_t hcnt;		/* 目的地跳数 */
+    u_int16_t flags;		/* 路由标记 */
+    u_int8_t state;		/* 该表项状态 */
+	//以下几条为计时器
     struct timer rt_timer;	/* The timer associated with this entry */
     struct timer ack_timer;	/* RREP_ack timer for this destination */
     struct timer hello_timer;
     struct timeval last_hello_time;
+	
     u_int8_t hello_cnt;
     hash_value hash;
-    int nprec;			/* Number of precursors */
-    list_t precursors;		/* List of neighbors using the route */
+    int nprec;			/* 前驱结点个数*/
+    list_t precursors;		/* 拥有该节点路由的邻居链表，应该是前驱结点链表 */
 };
 
 
-/* Route entry flags */
+/* Route entry flags ，路由状态标记*/
 #define RT_UNIDIR        0x1
 #define RT_REPAIR        0x2
 #define RT_INV_SEQNO     0x4
@@ -70,7 +72,7 @@ struct rt_table {
 				 * through a Internet gateway. */
 #define RT_GATEWAY       0x10
 
-/* Route entry states */
+/* Route entry states，是否有效的标记 */
 #define INVALID   0
 #define VALID     1
 
@@ -84,22 +86,23 @@ struct routing_table {
     list_t tbl[RT_TABLESIZE];
 };
 
-void precursor_list_destroy(rt_table_t * rt);
+void precursor_list_destroy(rt_table_t * rt);//删除或清空前驱结点链表
 #endif				/* NS_NO_GLOBALS */
 
 #ifndef NS_NO_DECLARATIONS
 
 struct routing_table rt_tbl;
 
-void rt_table_init();
-void rt_table_destroy();
+void rt_table_init();//初始化路由表
+void rt_table_destroy();//删除路由表
+
 rt_table_t *rt_table_insert(struct in_addr dest, struct in_addr next,
 			    u_int8_t hops, u_int32_t seqno, u_int32_t life,
 			    u_int8_t state, u_int16_t flags,
-			    unsigned int ifindex);
+			    unsigned int ifindex);//路由表
 rt_table_t *rt_table_update(rt_table_t * rt, struct in_addr next, u_int8_t hops,
 			    u_int32_t seqno, u_int32_t lifetime, u_int8_t state,
-			    u_int16_t flags);
+			    u_int16_t flags);//路由表更新
 NS_INLINE rt_table_t *rt_table_update_timeout(rt_table_t * rt,
 					      u_int32_t lifetime);
 void rt_table_update_route_timeouts(rt_table_t * fwd_rt, rt_table_t * rev_rt);
