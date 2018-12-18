@@ -43,14 +43,14 @@ typedef u_int32_t hash_value;	/* A hash value */
 
 /* Route table entries */
 struct rt_table {
-    list_t l;
+    list_t l;			/*可能为先驱表*/
     struct in_addr dest_addr;	/* 目的IP地址 */
-    u_int32_t dest_seqno;
-    unsigned int ifindex;	/* 网络层接口 */
+    u_int32_t dest_seqno;	/*目的节点序列号*/
+    unsigned int ifindex;	/* 网络层接口索引 */
     struct in_addr next_hop;	/* 下一跳IP地址 */
     u_int8_t hcnt;		/* 目的地跳数 */
     u_int16_t flags;		/* 路由标记 */
-    u_int8_t state;		/* 该表项状态 */
+    u_int8_t state;		/* 该链路状态 */
 	//以下几条为计时器
     struct timer rt_timer;	/* The timer associated with this entry */
     struct timer ack_timer;	/* RREP_ack timer for this destination */
