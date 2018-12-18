@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Authors: Erik Nordstr�m, <erik.nordstrom@it.uu.se>
+ * Authors: Erik Nordström, <erik.nordstrom@it.uu.se>
  *          
  *
  *****************************************************************************/
@@ -51,19 +51,19 @@ typedef struct {
 #else
 #error "Adjust your <bits/endian.h> defines"
 #endif
-    u_int8_t hcnt;
-    u_int32_t dest_addr;
-    u_int32_t dest_seqno;
-    u_int32_t orig_addr;
-    u_int32_t lifetime;
-} RREP;
+    u_int8_t hcnt;		//跳数
+    u_int32_t dest_addr;	//目的IP
+    u_int32_t dest_seqno;	//目的序列号
+    u_int32_t orig_addr;	//源IP
+    u_int32_t lifetime;		//生命
+} RREP;		//RREP报文帧内容
 
 #define RREP_SIZE sizeof(RREP)
 
 typedef struct {
     u_int8_t type;
     u_int8_t reserved;
-} RREP_ack;
+} RREP_ack;	//路由接受确认，主要用于接收到的RREP的A位置1时发送。
 
 #define RREP_ACK_SIZE sizeof(RREP_ack)
 #endif				/* NS_NO_GLOBALS */
